@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso Fernando Martí Haik - Análisis Criminológico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #8b0000 0%, #dc143c 100%);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 4px solid #ffd700;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 12px 25px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .tab-btn:hover {
+            background: #ffd700;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+
+        .tab-btn.active {
+            background: #dc143c;
+            border-color: #dc143c;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(255,215,0,0.2);
+            border-color: #ffd700;
+        }
+
+        .card-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #dc143c;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 1.3em;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #dc143c 0%, #ffd700 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border-left: 4px solid #dc143c;
+        }
+
+        .timeline-item::before {
+            content: '⬤';
+            position: absolute;
+            left: -31px;
+            top: 20px;
+            color: #ffd700;
+            font-size: 1.2em;
+        }
+
+        .timeline-date {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .suspect-card {
+            background: linear-gradient(135deg, rgba(139,0,0,0.3) 0%, rgba(220,20,60,0.2) 100%);
+            border: 2px solid #dc143c;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .suspect-name {
+            color: #ffd700;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .suspect-alias {
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .suspect-info {
+            line-height: 1.8;
+        }
+
+        .evidence-item {
+            background: rgba(255,215,0,0.1);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .evidence-title {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .victim-section {
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(139,0,0,0.3) 100%);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .victim-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ffd700;
+            margin: 0 auto 20px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .victim-name {
+            font-size: 2em;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .alert-box {
+            background: rgba(220,20,60,0.2);
+            border: 2px solid #dc143c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .alert-title {
+            color: #ff6b6b;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .connection-map {
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .connection-node {
+            background: rgba(220,20,60,0.3);
+            border: 2px solid #dc143c;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .connection-arrow {
+            color: #ffd700;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(220,20,60,0.3) 0%, rgba(139,0,0,0.3) 100%);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #fff;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .impact-section {
+            background: rgba(0,0,0,0.5);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-size: 1.3em;
+            font-style: italic;
+            color: #ffd700;
+            border-left: 4px solid #dc143c;
+            padding-left: 20px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 2px solid #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚖️ CASO FERNANDO MARTÍ HAIK ⚖️</h1>
+        <div class="subtitle">Análisis Criminológico Completo | Secuestro y Homicidio 2008</div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('resumen')">📋 Resumen</button>
+            <button class="tab-btn" onclick="showTab('victima')">👤 Víctima</button>
+            <button class="tab-btn" onclick="showTab('cronologia')">⏱️ Cronología</button>
+            <button class="tab-btn" onclick="showTab('sospechosos')">🔍 Sospechosos</button>
+            <button class="tab-btn" onclick="showTab('evidencias')">📁 Evidencias</button>
+            <button class="tab-btn" onclick="showTab('impacto')">⚡ Impacto Social</button>
+        </div>
+
+        <!-- TAB: SOSPECHOSOS -->
+        <div id="sospechosos" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span class="card-icon">🔍</span> ORGANIZACIÓN CRIMINAL</div>
+                <div class="alert-box">
+                    <div class="alert-title">🎯 BANDA "LA FLOR" / "LOS PETRICIOLET"</div>
+                    <p style="line-height: 1.8;">
+                        Organización criminal dedicada al secuestro que operó en la Ciudad de México entre 2007 y 2008. Se les atribuyen <span class="highlight">al menos 11 secuestros</span> con un modus operandi característico: falsos retenes policiales con participación de elementos activos de corporaciones de seguridad pública.
+                    </p>
+                </div>
+            </div>
+
+            <div class="connection-map">
+                <h3 style="color: #ffd700; margin-bottom: 20px; text-align: center;">🕸️ MAPA DE CONEXIONES</h3>
+                
+                <div class="connection-node" style="background: rgba(139,0,0,0.5);">
+                    <strong style="color: #ffd700;">JESÚS VALDEZ OROZCO "Ojos de Perro"</strong>
+                    <p>Líder intelectual y financiero de la banda</p>
+                </div>
+                
+                <div class="connection-arrow">⬇️</div>
+                
+                <div class="connection-node">
+                    <strong style="color: #ffd700;">NOÉ CAÑAS OVALLE "Obañes"</strong>
+                    <p>Líder operativo - Coordinador de secuestros</p>
+                </div>
+                
+                <div class="connection-arrow">⬇️ ⬇️ ⬇️</div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div class="connection-node">
+                        <strong style="color: #ffd700;">MARÍA ELENA ONTIVEROS "La Güera"</strong>
+                        <p>Organizadora del retén falso</p>
+                    </div>
+                    <div class="connection-node">
+                        <strong style="color: #ffd700;">SERGIO HUMBERTO ORTIZ "El Apá"</strong>
+                        <p>Autor material del secuestro</p>
+                    </div>
+                    <div class="connection-node">
+                        <strong style="color: #ffd700;">LUIS MANUEL DEL CASTILLO</strong>
+                        <p>Ejecutor directo de Fernando</p>
+                    </div>
+                </div>
+
+                <div class="connection-arrow">⬇️</div>
+
+                <div class="connection-node" style="border-color: #ffd700;">
+                    <strong style="color: #ffd700;">CÓMPLICES POLICIALES</strong>
+                    <p>Elementos de corporaciones federales y locales</p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #1</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">JESÚS VALDEZ OROZCO</div>
+                        <div class="suspect-alias">"Ojos de Perro"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Edad al momento:</span> ~40 años</p>
+                            <p><span class="highlight">Rol:</span> Líder intelectual y financiero de "La Flor"</p>
+                            <p><span class="highlight">Antecedentes:</span> Historial criminal extenso</p>
+                            <p><span class="highlight">Captura:</span> 21 de julio de 2010</p>
+                            <p><span class="highlight">Sentencia:</span> ⚖️ 542 AÑOS DE PRISIÓN (2021)</p>
+                            <p><span class="highlight">Delitos:</span> Delincuencia organizada, secuestro agravado</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">Considerado el cerebro financiero de la organización. Coordinaba las operaciones y el reparto del dinero de los rescates.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #2</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">NOÉ CAÑAS OVALLE</div>
+                        <div class="suspect-alias">"Obañes" / "El Jefe"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Edad al momento:</span> ~35 años</p>
+                            <p><span class="highlight">Rol:</span> Líder operativo de la banda</p>
+                            <p><span class="highlight">Captura:</span> 22 de agosto de 2008</p>
+                            <p><span class="highlight">Ubicación:</span> Pedregal de Santo Domingo, Coyoacán</p>
+                            <p><span class="highlight">Sentencia:</span> ⚖️ 300 AÑOS DE PRISIÓN (2022)</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">Coordinador directo de los secuestros. Seleccionaba objetivos, planificaba operativos y supervisaba la ejecución de los plagios. Primera gran captura del caso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #3</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">MARÍA ELENA ONTIVEROS MENDOZA</div>
+                        <div class="suspect-alias">"La Güera"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Edad al momento:</span> ~38 años</p>
+                            <p><span class="highlight">Rol:</span> Organizadora del falso retén policial</p>
+                            <p><span class="highlight">Captura:</span> Abril 2010</p>
+                            <p><span class="highlight">Perfil:</span> Civil con contactos en corporaciones policiales</p>
+                            <p><span class="highlight">Función específica:</span> Reclutaba y coordinaba a los policías que participaban en los falsos retenes</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">Pieza clave en la infiltración policial. Su detención reveló la profundidad de la corrupción en las corporaciones de seguridad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #4</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">SERGIO HUMBERTO ORTIZ JUÁREZ</div>
+                        <div class="suspect-alias">"El Apá"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Rol:</span> Autor material del secuestro</p>
+                            <p><span class="highlight">Captura:</span> 9 de septiembre de 2008</p>
+                            <p><span class="highlight">Participación:</span> Ejecutó directamente el operativo del falso retén</p>
+                            <p><span class="highlight">Acusación:</span> Secuestro agravado y homicidio</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">Uno de los operadores directos en la interceptación del vehículo de Fernando Martí.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #5</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">LUIS MANUEL DEL CASTILLO RENTERÍA</div>
+                        <div class="suspect-alias">Sin alias conocido</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Rol:</span> EJECUTOR DIRECTO de Fernando Martí</p>
+                            <p><span class="highlight">Estatus inicial:</span> Prófugo desde 2009</p>
+                            <p><span class="highlight">Captura:</span> 2 de septiembre de 2012 (Policía Federal)</p>
+                            <p><span class="highlight">Acusación:</span> Homicidio calificado y secuestro</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">⚠️ Señalado como la persona que directamente asesinó a Fernando Martí. Su captura fue considerada crucial para el cierre del caso.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #6 - CASO CONTROVERSIAL</div>
+                    <div class="suspect-card" style="border-color: #ffd700;">
+                        <div class="suspect-name">LORENA GONZÁLEZ HERNÁNDEZ</div>
+                        <div class="suspect-alias">"La Lore"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Profesión:</span> Elemento de la Policía Federal Preventiva (PFP)</p>
+                            <p><span class="highlight">Acusación inicial:</span> Coordinar el falso retén policial</p>
+                            <p><span class="highlight">Detención:</span> 9 de septiembre de 2008</p>
+                            <p><span class="highlight">Prisión:</span> 7 años recluida</p>
+                            <p><span class="highlight">Liberación:</span> 18 de julio de 2015</p>
+                            <p><span class="highlight">Resultado:</span> ✅ DECLARADA INOCENTE</p>
+                            <p style="margin-top: 10px; color: #00ff00;">
+                                🔓 <strong>EXONERADA:</strong> De 7 testigos que la incriminaban, solo uno sostuvo su declaración. Se descubrió que varios testigos presentaron credenciales de IFE falsas. En octubre 2019, la Procuraduría de Justicia CDMX emitió disculpa pública reconociendo error judicial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #7</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">FERNANDO HERNÁNDEZ SANTOYO</div>
+                        <div class="suspect-alias">Sin alias conocido</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Profesión:</span> Policía Judicial de la CDMX</p>
+                            <p><span class="highlight">Arraigo:</span> 5 de agosto de 2008</p>
+                            <p><span class="highlight">Rol presunto:</span> Infiltración policial y facilitación de información</p>
+                            <p style="margin-top: 10px; color: #ff6b6b;">Uno de los primeros elementos policiales en ser arraigados. Su detención evidenció la participación de policías activos en la banda.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👤 PERFIL #8</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">ABEL "S"</div>
+                        <div class="suspect-alias">Integrante de "Los Petriciolet"</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Sentencia:</span> ⚖️ 300 AÑOS DE PRISIÓN (2022)</p>
+                            <p><span class="highlight">Delitos:</span> Secuestro agravado, delincuencia organizada</p>
+                            <p style="margin-top: 10px;">Miembro operativo de la banda con participación en múltiples secuestros.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">⚠️ OTROS IMPLICADOS SIN IDENTIFICACIÓN COMPLETA</div>
+                <ul style="line-height: 2; margin-left: 20px; margin-top: 10px;">
+                    <li>Varios elementos de la Policía Federal Preventiva (PFP)</li>
+                    <li>Elementos de la Policía Judicial de la CDMX</li>
+                    <li>Personal de apoyo logístico (casas de seguridad, vehículos)</li>
+                    <li>Negociadores y mensajeros</li>
+                    <li>Colaboradores que transportaron el rescate</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🎯 MODUS OPERANDI DE LA BANDA</div>
+                <div class="evidence-item">
+                    <div class="evidence-title">1. SELECCIÓN DE VÍCTIMAS</div>
+                    <p>Familias de alto poder adquisitivo, especialmente empresarios. Vigilancia previa de rutinas, vehículos y escoltas.</p>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">2. INFILTRACIÓN POLICIAL</div>
+                    <p>Uso de uniformes, patrullas y credenciales auténticas de corporaciones policiales federales y locales.</p>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">3. FALSOS RETENES</div>
+                    <p>Montaje de operativos policiales falsos en avenidas principales durante horas de tráfico intenso para generar confianza.</p>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">4. EJECUCIÓN RÁPIDA</div>
+                    <p>Sometimiento inmediato de víctimas y escoltas. Traslado a casas de seguridad previamente identificadas.</p>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">5. NEGOCIACIÓN PROLONGADA</div>
+                    <p>Demandas de rescate extremadamente altas. Negociaciones que se extendían por semanas para aumentar presión psicológica.</p>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">6. ELIMINACIÓN DE TESTIGOS</div>
+                    <p>Patrón de violencia extrema. Ejecución de choferes, escoltas y en ocasiones de las propias víctimas aún después del pago.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: EVIDENCIAS -->
+        <div id="evidencias" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span class="card-icon">📁</span> EXPEDIENTE DE EVIDENCIAS</div>
+                
+                <div class="evidence-item">
+                    <div class="evidence-title">🚗 VEHÍCULOS INVOLUCRADOS</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li><strong>BMW blindado:</strong> Vehículo de Fernando Martí interceptado en el falso retén</li>
+                        <li><strong>Chevrolet Corsa plata:</strong> Con reporte de robo. Encontrado en Villa Panamericana, Coyoacán, con el cuerpo de Fernando en la cajuela</li>
+                        <li><strong>Patrullas falsas:</strong> Vehículos tipo policial utilizados en el retén (algunos con placas y equipamiento real)</li>
+                        <li><strong>Vehículos de seguimiento:</strong> Utilizados para vigilar a la familia Martí previo al secuestro</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">💰 EVIDENCIA FINANCIERA</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Monto del rescate:</strong> Aproximadamente 6 millones de dólares USD (uno de los más altos registrados en México)</li>
+                        <li><strong>Fecha de entrega:</strong> 12 de julio de 2008</li>
+                        <li><strong>Lugar de entrega:</strong> Vehículo abandonado en colonia General Anaya, Coyoacán</li>
+                        <li><strong>Rastreo:</strong> Investigaciones posteriores sobre movimientos bancarios y gastos de los sospechosos</li>
+                        <li><strong>Conflicto interno:</strong> Evidencia de disputa entre miembros de la banda por el reparto del dinero</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">📝 NOTA INCRIMINATORIA</div>
+                    <p style="margin-left: 20px; margin-top: 10px;">
+                        Mensaje encontrado junto al cuerpo: <span class="highlight">"Por no pagar. Atentamente la familia"</span> (sic)
+                    </p>
+                    <p style="margin-left: 20px; margin-top: 10px; color: #ff6b6b;">
+                        ⚠️ Esta nota es contradictoria ya que el rescate SÍ fue pagado. Esto refuerza la teoría de conflicto interno en la banda y posible desconocimiento del pago por parte de quien ejecutó a Fernando.
+                    </p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">👤 TESTIMONIO CLAVE: CRISTIAN FLORES</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Rol:</strong> Guardaespaldas de Fernando, sobreviviente del secuestro</li>
+                        <li><strong>Importancia:</strong> Único testigo directo del operativo del falso retén</li>
+                        <li><strong>Descripción:</strong> Proporcionó detalles sobre uniformes, patrullas, número de captores y modus operandi</li>
+                        <li><strong>Estatus:</strong> Testigo protegido por las autoridades</li>
+                        <li><strong>Detalle clave:</strong> Confirmó que los captores portaban uniformes auténticos y actuaban como policías federales</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">📞 LLAMADAS Y NEGOCIACIONES</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Registro de llamadas entre secuestradores y familia durante 53 días</li>
+                        <li>Análisis de voz y patrones de comunicación</li>
+                        <li>Rastreo de ubicación de celulares utilizados</li>
+                        <li>Participación de negociadores profesionales contratados por la familia</li>
+                        <li>Intervención de autoridades en negociaciones</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">🏠 CASAS DE SEGURIDAD</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Múltiples domicilios identificados en CDMX y Estado de México</li>
+                        <li>Propiedades rentadas específicamente para retener víctimas</li>
+                        <li>Evidencia de que Fernando fue trasladado entre diferentes ubicaciones</li>
+                        <li>Hallazgo de materiales utilizados para retención (cadenas, candados, vendas)</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">🔫 ARMAS Y UNIFORMES</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Armas de fuego de uso exclusivo del Ejército encontradas en poder de los detenidos</li>
+                        <li>Uniformes auténticos de la Policía Federal Preventiva</li>
+                        <li>Credenciales policiales falsas y algunas auténticas</li>
+                        <li>Equipo táctico y de comunicación policial</li>
+                        <li>Chalecos antibalas y equipamiento profesional</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">💻 EVIDENCIA DIGITAL</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Registros de llamadas y mensajes de texto</li>
+                        <li>Análisis de computadoras y dispositivos móviles de los sospechosos</li>
+                        <li>Fotografías de vigilancia previa a la víctima</li>
+                        <li>Registros de búsquedas en internet sobre la familia Martí</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">🧬 EVIDENCIA FORENSE</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Autopsia de Fernando Martí Haik</li>
+                        <li>Análisis forense del vehículo donde fue encontrado</li>
+                        <li>Huellas dactilares y ADN en casas de seguridad</li>
+                        <li>Balística de armas recuperadas</li>
+                        <li>Análisis de fibras y materiales</li>
+                    </ul>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">📋 AVERIGUACIONES PREVIAS RELACIONADAS</div>
+                    <p style="margin-left: 20px; margin-top: 10px;">
+                        <span class="highlight">31 de octubre de 2008:</span> La PGJDF ejercitó acción penal por <strong>6 averiguaciones previas</strong> que conectaban a la banda con <strong>11 casos de secuestro</strong> cometidos entre abril 2007 y junio 2008.
+                    </p>
+                    <p style="margin-left: 20px; margin-top: 10px; color: #ffd700;">
+                        Esto estableció un patrón criminal claro y permitió acumular evidencia de otros casos para fortalecer las acusaciones.
+                    </p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">⚠️ EVIDENCIA DE CORRUPCIÓN POLICIAL</div>
+                    <ul style="line-height: 1.8; margin-left: 20px; margin-top: 10px;">
+                        <li>Participación activa de elementos de la PFP y Policía Judicial CDMX</li>
+                        <li>Acceso a información confidencial de investigaciones</li>
+                        <li>Uso de bases de datos policiales para seleccionar víctimas</li>
+                        <li>Protección a miembros de la banda mediante filtración de operativos</li>
+                        <li>Documentación de pagos de la banda a policías</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🔴 FALLAS EN LA INVESTIGACIÓN</div>
+                <ul style="line-height: 2; margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Caso Lorena González:</strong> Error judicial grave, testigos con documentos falsos, 7 años de prisión injusta</li>
+                    <li><strong>Fuga de información:</strong> Infiltración policial comprometió múltiples líneas de investigación</li>
+                    <li><strong>Coordinación deficiente:</strong> Falta de cooperación entre corporaciones (Federal, CDMX, Estado de México)</li>
+                    <li><strong>Pérdida de evidencia:</strong> Algunos elementos probatorios no fueron procesados adecuadamente</li>
+                    <li><strong>Liberación de sospechosos:</strong> Algunas detenciones no prosperaron por falta de pruebas contundentes</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📊 RESUMEN ESTADÍSTICO DE EVIDENCIAS</div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Secuestros Atribuidos</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Averiguaciones Previas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">8+</div>
+                        <div class="stat-label">Sospechosos Identificados</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">53</div>
+                        <div class="stat-label">Días en Cautiverio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: IMPACTO SOCIAL -->
+        <div id="impacto" class="tab-content">
+            <div class="impact-section">
+                <h2 style="color: #ffd700; margin-bottom: 20px; font-size: 2em;">⚡ IMPACTO SOCIAL Y POLÍTICO</h2>
+                
+                <div class="quote">
+                    "Señores, si piensan que la vara es muy alta, si piensan que es imposible hacerlo, si no pueden, RENUNCIEN"
+                    <div style="text-align: right; margin-top: 10px; color: #fff;">— Alejandro Martí, 21 de agosto de 2008</div>
+                </div>
+
+                <p style="line-height: 2; margin-top: 20px; font-size: 1.1em;">
+                    El caso Fernando Martí trasciendió la esfera personal para convertirse en un punto de inflexión en la historia reciente de México. Fue el catalizador que expuso la profunda crisis de seguridad, la corrupción sistémica en las corporaciones policiales y la incapacidad del Estado para proteger a sus ciudadanos.
+                </p>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-title">🗣️ MÉXICO SOS</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Fundación: 13 de agosto de 2008</div>
+                        <p>Alejandro Martí creó el Sistema de Observación para la Seguridad Ciudadana (México SOS), organización civil que se convirtió en una de las voces más influyentes en materia de seguridad pública.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Objetivos</div>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li>Combatir la impunidad</li>
+                            <li>Exigir rendición de cuentas a autoridades</li>
+                            <li>Promover reformas al sistema de justicia</li>
+                            <li>Dar voz a víctimas de la delincuencia</li>
+                            <li>Monitorear desempeño de instituciones de seguridad</li>
+                        </ul>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Legado</div>
+                        <p>México SOS se convirtió en un referente nacional e internacional del activismo ciudadano contra la violencia y la corrupción. Alejandro Martí fue reconocido como una de las figuras más valientes en la defensa de los derechos de las víctimas.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">⚖️ REFORMAS LEGALES</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Reforma al Sistema de Justicia Penal</div>
+                        <p>El caso contribuyó a acelerar la implementación del sistema penal acusatorio en México, que buscaba mayor transparencia y eficiencia en los procesos judiciales.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Ley Federal contra el Secuestro</div>
+                        <p>Se fortalecieron las penas para delitos de secuestro y se crearon protocolos específicos de investigación y atención a víctimas.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Depuración Policial</div>
+                        <p>Se intensificaron los procesos de control de confianza y depuración en corporaciones policiales federales y estatales, aunque con resultados mixtos.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Registro Nacional de Víctimas</div>
+                        <p>Se impulsó la creación de sistemas para documentar y atender a víctimas del delito, garantizando sus derechos y acceso a justicia.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📰 COBERTURA MEDIÁTICA</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Impacto Nacional</div>
+                        <p>El caso recibió cobertura sin precedentes en medios nacionales e internacionales. Permaneció en portadas durante meses y generó debate público sobre seguridad.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Cambio en la Narrativa</div>
+                        <p>Rompió el silencio sobre el secuestro en México. Antes del caso, muchas familias no denunciaban por miedo. El caso Martí abrió la conversación pública.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Confrontación con el Poder</div>
+                        <p>Alejandro Martí confrontó directamente al presidente Felipe Calderón y su gabinete de seguridad, algo inusual para víctimas de la delincuencia en México.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">👥 MOVIMIENTO CIUDADANO</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Iluminemos México</div>
+                        <p>Campaña ciudadana donde miles de personas encendieron velas y luces en plazas públicas exigiendo seguridad y justicia. Movimiento masivo de solidaridad.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Acuerdo Nacional por la Seguridad</div>
+                        <p>El gobierno convocó a un acuerdo nacional que incluyó a Alejandro Martí como voz ciudadana. Aunque las medidas fueron insuficientes, marcó un precedente de participación.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Otras Organizaciones</div>
+                        <p>El caso inspiró la creación de múltiples organizaciones de víctimas: Alto al Secuestro, Causa en Común, RENACED, entre otras.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🔴 EXPOSICIÓN DE CRISIS INSTITUCIONAL</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Corrupción Policial</div>
+                        <p>Evidenció que policías activos de corporaciones federales y locales participaban directamente en secuestros, no solo por omisión sino como operadores.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Falta de Coordinación</div>
+                        <p>Mostró la descoordinación entre instituciones de seguridad (PFP, PGR, PGJDF) y la falta de protocolos efectivos contra el secuestro.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Impunidad Sistémica</div>
+                        <p>A pesar de ser un caso mediático, varios sospechosos nunca fueron capturados y otros fueron liberados por fallas en el proceso judicial.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📊 ESTADÍSTICAS POST-CASO</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Aumento de Denuncias</div>
+                        <p>Tras el caso Martí, las denuncias por secuestro aumentaron significativamente, reflejando mayor confianza para reportar (aunque también el incremento del delito).</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Percepción de Inseguridad</div>
+                        <p>Las encuestas mostraron que la percepción de inseguridad alcanzó niveles históricos. El caso Martí simbolizó la vulnerabilidad de todos los mexicanos.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Movilización Social</div>
+                        <p>Decenas de marchas y manifestaciones se realizaron en todo el país exigiendo justicia y seguridad.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">💔 IMPACTO EMOCIONAL Y CULTURAL</div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Trauma Colectivo</div>
+                        <p>El caso se convirtió en símbolo del dolor de miles de familias. "Si le pasó a Martí, puede pasarle a cualquiera" fue el pensamiento generalizado.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Cambio en Conductas</div>
+                        <p>Familias de clase media y alta aumentaron medidas de seguridad: escoltas, vehículos blindados, cambios en rutinas, sistemas de rastreo GPS.</p>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-title">Desconfianza en Autoridades</div>
+                        <p>El caso consolidó la desconfianza ciudadana hacia policías y gobierno, creando una fractura social profunda que persiste.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🏆 RECONOCIMIENTOS A ALEJANDRO MARTÍ</div>
+                <ul style="line-height: 2; margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Premio Nacional de Derechos Humanos:</strong> Por su defensa de víctimas y lucha contra la impunidad</li>
+                    <li><strong>Reconocimiento Internacional:</strong> Participación en foros de ONU y OEA sobre seguridad y derechos humanos</li>
+                    <li><strong>Influencia Legislativa:</strong> Consultado en reformas de seguridad y justicia</li>
+                    <li><strong>Legado Permanente:</strong> Su frase "Si no pueden, renuncien" quedó en la memoria colectiva mexicana</li>
+                </ul>
+            </div>
+
+            <div class="impact-section">
+                <h3 style="color: #ffd700; margin-bottom: 15px; font-size: 1.5em;">📖 LECCIONES Y REFLEXIONES</h3>
+                
+                <div class="evidence-item">
+                    <div class="evidence-title">Vulnerabilidad Universal</div>
+                    <p>El caso demostró que ni el dinero, ni las medidas de seguridad privadas garantizan protección cuando el Estado y sus instituciones están comprometidas.</p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">Poder de la Voz Ciudadana</div>
+                    <p>Alejandro Martí demostró que los ciudadanos pueden exigir cuentas al poder. Su activismo inspiró a miles a levantar la voz contra la injusticia.</p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">Necesidad de Reformas Profundas</div>
+                    <p>El caso evidenció que el problema de inseguridad requiere reformas estructurales, no solo acciones reactivas o parches legislativos.</p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">Corrupción como Raíz del Problema</div>
+                    <p>La participación directa de policías en el crimen organizado reveló que la corrupción es el principal obstáculo para la seguridad en México.</p>
+                </div>
+
+                <div class="evidence-item">
+                    <div class="evidence-title">Importancia de la Memoria</div>
+                    <p>Mantener vivo el recuerdo del caso es esencial para no normalizar la violencia y exigir justicia permanente.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">✝️ IN MEMORIAM</div>
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🕯️</div>
+                    <h3 style="color: #ffd700; font-size: 1.8em; margin-bottom: 10px;">Fernando Martí Haik</h3>
+                    <p style="font-size: 1.2em; margin-bottom: 5px;">1994 - 2008</p>
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">14 años</p>
+                    
+                    <div style="border-top: 2px solid #ffd700; margin: 20px 0; padding-top: 20px;">
+                        <h3 style="color: #ffd700; font-size: 1.8em; margin-bottom: 10px;">Alejandro Martí</h3>
+                        <p style="font-size: 1.2em; margin-bottom: 5px;">1950 - 2023</p>
+                        <p style="font-size: 1.2em; margin-bottom: 10px;">73 años</p>
+                        <p style="font-style: italic; line-height: 1.8;">
+                            Padre incansable, activista valiente, voz de las víctimas.<br>
+                            Su lucha transformó el dolor personal en cambio social.
+                        </p>
+                    </div>
+                    
+                    <div style="border-top: 2px solid #ffd700; margin: 20px 0; padding-top: 20px;">
+                        <h3 style="color: #ffd700; font-size: 1.8em; margin-bottom: 10px;">Jorge Palma Lemus</h3>
+                        <p style="font-size: 1.2em;">Chofer - Víctima fatal del secuestro</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote" style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 15px; margin-top: 30px;">
+                "La lucha contra la impunidad no termina con sentencias. Termina cuando construimos un país donde ninguna familia tenga que pasar por lo que nosotros pasamos."
+                <div style="text-align: right; margin-top: 15px; color: #ffd700; font-weight: bold;">
+                    — Alejandro Martí
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 1.1em; margin-bottom: 10px;">📚 <strong>CASO FERNANDO MARTÍ HAIK</strong> 📚</p>
+            <p style="color: #ffd700;">Análisis Criminológico Completo | 2008 - 2024</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                Este pizarrón criminológico ha sido elaborado con fines educativos y de análisis.<br>
+                Información compilada de fuentes públicas, archivos judiciales y medios de comunicación.
+            </p>
+            <p style="margin-top: 15px; font-size: 1em; color: #ffd700;">
+                ⚖️ Que la memoria de Fernando Martí y todas las víctimas del crimen organizado<br>
+                nos impulse a construir un México más seguro y justo ⚖️
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html><!-- TAB: RESUMEN -->
+        <div id="resumen" class="tab-content active">
+            <div class="victim-section">
+                <div class="victim-photo">👤</div>
+                <div class="victim-name">FERNANDO MARTÍ HAIK</div>
+                <p style="font-size: 1.2em;">14 años | Estudiante de Secundaria</p>
+                <p style="margin-top: 10px;">Hijo del empresario Alejandro Martí</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">53</div>
+                    <div class="stat-label">Días Secuestrado</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">$6M</div>
+                    <div class="stat-label">Rescate Pagado (USD)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Secuestros Totales de la Banda</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">542</div>
+                    <div class="stat-label">Años de Condena Mayor</div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">⚠️ DATOS CRÍTICOS DEL CASO</div>
+                <ul style="line-height: 2; list-style: none;">
+                    <li>🗓️ <span class="highlight">Fecha del Secuestro:</span> 4 de junio de 2008</li>
+                    <li>📍 <span class="highlight">Lugar:</span> Av. Insurgentes Sur, Jardines del Pedregal, CDMX</li>
+                    <li>🚗 <span class="highlight">Vehículo:</span> BMW blindado</li>
+                    <li>💀 <span class="highlight">Hallazgo del cuerpo:</span> 1 de agosto de 2008</li>
+                    <li>📍 <span class="highlight">Ubicación:</span> Cajuela de Corsa plata, Villa Panamericana, Coyoacán</li>
+                    <li>🏛️ <span class="highlight">Banda Criminal:</span> "La Flor" / "Los Petriciolet"</li>
+                    <li>⚖️ <span class="highlight">Estatus:</span> Parcialmente resuelto, varios sentenciados</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📝 RESUMEN EJECUTIVO</div>
+                <p style="line-height: 1.8;">
+                    El caso Fernando Martí Haik es uno de los crímenes más emblemáticos de la crisis de seguridad en México durante el sexenio de Felipe Calderón. El joven de 14 años fue interceptado por un falso retén policial mientras se dirigía a su escuela. A pesar del pago del rescate más alto registrado en su momento (6 millones de dólares), Fernando fue asesinado. Su cuerpo fue encontrado 53 días después en la cajuela de un vehículo robado con una nota: "Por no pagar. Atentamente la familia".
+                    <br><br>
+                    El caso expuso la participación de elementos policiales activos en redes de secuestro, generó una reforma al sistema de justicia penal mexicano y motivó la creación del movimiento ciudadano México SOS, liderado por el padre de la víctima, Alejandro Martí, quien confrontó públicamente al gobierno con su histórica frase: <span class="highlight">"Si no pueden, renuncien"</span>.
+                </p>
+            </div>
+        </div>
+
+        <!-- TAB: VÍCTIMA -->
+        <div id="victima" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-title"><span class="card-icon">👤</span> PERFIL DE LA VÍCTIMA</div>
+                    <div style="line-height: 2;">
+                        <p><span class="highlight">Nombre completo:</span> Fernando Martí Haik</p>
+                        <p><span class="highlight">Edad:</span> 14 años</p>
+                        <p><span class="highlight">Ocupación:</span> Estudiante de secundaria</p>
+                        <p><span class="highlight">Contexto familiar:</span> Hijo del empresario Alejandro Martí, propietario de Deportes Martí y Sport City</p>
+                        <p><span class="highlight">Perfil:</span> Adolescente de clase alta con escoltas y vehículo blindado por medidas de seguridad</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title"><span class="card-icon">👥</span> OTRAS VÍCTIMAS</div>
+                    <div class="suspect-card">
+                        <div class="suspect-name">Jorge Palma Lemus</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Rol:</span> Chofer de Fernando Martí</p>
+                            <p><span class="highlight">Estatus:</span> ✝️ Asesinado durante el secuestro</p>
+                            <p>Fue secuestrado junto con Fernando y ejecutado al día siguiente del plagio.</p>
+                        </div>
+                    </div>
+
+                    <div class="suspect-card">
+                        <div class="suspect-name">Cristian Flores / Christian Salmones</div>
+                        <div class="suspect-info">
+                            <p><span class="highlight">Rol:</span> Guardaespaldas de Fernando</p>
+                            <p><span class="highlight">Edad:</span> 25 años</p>
+                            <p><span class="highlight">Estatus:</span> ✅ SOBREVIVIENTE - Testigo protegido</p>
+                            <p><span class="highlight">Detalle clave:</span> Tenía menos de una semana trabajando para la familia. Fue abandonado por los captores creyéndolo muerto. Su testimonio fue crucial para la investigación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><span class="card-icon">🎯</span> PERFIL VICTIMOLÓGICO</div>
+                <div class="evidence-item">
+                    <div class="evidence-title">¿Por qué fue seleccionado?</div>
+                    <ul style="line-height: 1.8; margin-left: 20px;">
+                        <li>Hijo de empresario conocido con alta capacidad económica</li>
+                        <li>Rutina predecible (trayecto casa-escuela)</li>
+                        <li>Zona de alta plusvalía en CDMX</li>
+                        <li>Vehículo blindado indicaba recursos familiares</li>
+                        <li>Vigilancia previa documentada por la banda</li>
+                    </ul>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-title">Vulnerabilidades Explotadas</div>
+                    <ul style="line-height: 1.8; margin-left: 20px;">
+                        <li>Falso retén policial generó confianza inicial</li>
+                        <li>Guardaespaldas nuevo, sin experiencia completa</li>
+                        <li>Horario matutino con tráfico congestionado</li>
+                        <li>Infiltración policial neutralizó medidas de seguridad</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: CRONOLOGÍA -->
+        <div id="cronologia" class="tab-content">
+            <div class="card">
+                <div class="card-title"><span class="card-icon">⏱️</span> LÍNEA DE TIEMPO DETALLADA</div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 4 DE JUNIO 2008 - MAÑANA</div>
+                        <p><strong>EL SECUESTRO</strong></p>
+                        <p>Fernando Martí sale de su domicilio rumbo a su secundaria en la zona sur de CDMX, acompañado de su chofer Jorge Palma Lemus y su guardaespaldas Cristian Flores.</p>
+                        <p style="margin-top: 10px;"><span class="highlight">Ubicación:</span> Av. Insurgentes Sur, altura de Jardines del Pedregal</p>
+                        <p><span class="highlight">Modus Operandi:</span> Falso retén policial intercepta el BMW blindado. Los captores, vestidos como agentes federales, someten a Fernando y su chofer. El guardaespaldas es dejado por muerto en el lugar.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 5 DE JUNIO 2008</div>
+                        <p><strong>PRIMERA VÍCTIMA FATAL</strong></p>
+                        <p>Jorge Palma Lemus, el chofer, es asesinado por los secuestradores.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 JUNIO - JULIO 2008 (53 DÍAS)</div>
+                        <p><strong>PERÍODO DE NEGOCIACIÓN</strong></p>
+                        <p>Alejandro Martí, autoridades y asesores privados establecen negociaciones con los plagiarios. La familia realiza múltiples intentos de rescate.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 12 DE JULIO 2008</div>
+                        <p><strong>ENTREGA DEL RESCATE</strong></p>
+                        <p>Un empleado de la familia Martí deja el rescate de aproximadamente <span class="highlight">6 MILLONES DE DÓLARES</span> en un vehículo en la colonia General Anaya, Coyoacán.</p>
+                        <p style="margin-top: 10px; color: #ff6b6b;">⚠️ Los secuestradores no respetan el acuerdo y no liberan a Fernando.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 1 DE AGOSTO 2008</div>
+                        <p><strong>HALLAZGO DEL CUERPO</strong></p>
+                        <p>El cuerpo de Fernando Martí es encontrado sin vida en la cajuela de un Chevrolet Corsa color plata con reporte de robo, abandonado en la colonia Villa Panamericana, delegación Coyoacán.</p>
+                        <p style="margin-top: 10px;"><span class="highlight">Mensaje dejado:</span> "Por no pagar. Atentamente la familia" (sic)</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 5 DE AGOSTO 2008</div>
+                        <p><strong>PRIMERAS DETENCIONES</strong></p>
+                        <p>Arraigo de Fernando Hernández Santoyo, policía judicial de la CDMX, por el caso Martí.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 13 DE AGOSTO 2008</div>
+                        <p><strong>NACE MÉXICO SOS</strong></p>
+                        <p>Alejandro Martí anuncia la creación del Sistema de Observación para la Seguridad Ciudadana (México SOS) para combatir la impunidad.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 14 DE AGOSTO 2008</div>
+                        <p><strong>LÍNEA DE INVESTIGACIÓN PRINCIPAL</strong></p>
+                        <p>Autoridades identifican como línea principal que los integrantes de "La Banda de La Flor" se pelearon por el reparto del rescate.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 21 DE AGOSTO 2008</div>
+                        <p><strong>DISCURSO HISTÓRICO</strong></p>
+                        <p>En el Acuerdo de Seguridad Nacional, Alejandro Martí confronta al gobierno con su icónica frase:</p>
+                        <div class="quote">"Señores, si piensan que la vara es muy alta, si piensan que es imposible hacerlo, si no pueden, RENUNCIEN"</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 22 DE AGOSTO 2008</div>
+                        <p><strong>CAPTURA DEL LÍDER</strong></p>
+                        <p>La PGJDF captura a Noé Cañas Ovalle (Obañes), presunto líder de la banda "La Flor", en un operativo en Pedregal de Santo Domingo, Coyoacán.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 9 DE SEPTIEMBRE 2008</div>
+                        <p><strong>DETENCIÓN DE POLICÍA FEDERAL</strong></p>
+                        <p>Arresto de Lorena González Hernández "La Lore", elemento de la PFP que coordinó el falso retén, y Sergio Humberto Ortiz Juárez "El Apá", acusado como autor material del secuestro y asesinato.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 31 DE OCTUBRE 2008</div>
+                        <p><strong>ACCIÓN PENAL MÚLTIPLE</strong></p>
+                        <p>La PGJDF ejercita acción penal por <span class="highlight">6 averiguaciones previas</span> relacionadas con <span class="highlight">11 casos de secuestro</span> cometidos por la banda entre abril 2007 y junio 2008.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 17 DE JULIO 2010</div>
+                        <p><strong>ACCIÓN PENAL FEDERAL</strong></p>
+                        <p>Se ejercita acción penal sin detenido contra Jesús Valdez Orozco "Ojos de Perro". Al día siguiente se otorga orden de aprehensión.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 21 DE JULIO 2010</div>
+                        <p><strong>DETENCIÓN FEDERAL</strong></p>
+                        <p>Captura de Jesús Valdez Orozco y su internamiento en el Centro Federal de Readaptación Social No. 4 "Noreste" en Nayarit.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 ABRIL 2010</div>
+                        <p><strong>NUEVA RESPONSABLE IDENTIFICADA</strong></p>
+                        <p>Detención de María Elena Ontiveros Mendoza "La Güera", señalada como la verdadera organizadora del retén falso.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 2 DE SEPTIEMBRE 2012</div>
+                        <p><strong>CAPTURA DEL AUTOR MATERIAL</strong></p>
+                        <p>La Policía Federal detiene a Luis Manuel del Castillo Rentería, prófugo desde 2009, acusado de ser el autor material del secuestro y la muerte directa de Fernando Martí.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 18 DE JULIO 2015</div>
+                        <p><strong>LIBERACIÓN CONTROVERTIDA</strong></p>
+                        <p>Lorena González "La Lore" es puesta en libertad. De 7 testigos que la señalaban, solo uno mantuvo su declaración y fue desestimada. Se descubrió que credenciales del IFE de testigos eran falsas.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 OCTUBRE 2019</div>
+                        <p><strong>DISCULPA PÚBLICA</strong></p>
+                        <p>La Procuraduría de Justicia de la CDMX se disculpa públicamente con Lorena González Hernández por haberla acusado y encarcelado indebidamente.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 12 DE SEPTIEMBRE 2021</div>
+                        <p><strong>SENTENCIA HISTÓRICA</strong></p>
+                        <p>La FGR obtiene sentencia condenatoria de <span class="highlight">542 AÑOS DE PRISIÓN</span> contra Jesús Valdez Orozco "Ojos de Perro" por delincuencia organizada y secuestro agravado.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 2022</div>
+                        <p><strong>SENTENCIAS ADICIONALES</strong></p>
+                        <p>Dos exintegrantes de "Los Petriciolet" (Abel "S" y Noé "S") son condenados a 300 años de prisión.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">📅 24 DE JULIO 2023</div>
+                        <p><strong>FALLECIMIENTO DE ALEJANDRO MARTÍ</strong></p>
+                        <p>Muere el empresario y activista Alejandro Martí a los 73 años de edad, 15 años después de la tragedia de su hijo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
